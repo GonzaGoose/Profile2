@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-val WhiteColor = Color(color = 0xFFFFFFFF)
+val WhiteColor = Color(color = 0xFF755E50)
 @Preview(showBackground = true)
 @Composable
 fun Modificador () {
