@@ -1,8 +1,10 @@
 package com.example.moviles.componentes
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,6 +25,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,10 +42,36 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviles.R
 
+@SuppressLint("RememberReturnType")
 @Preview (showBackground = true)
 @Composable
 
 fun Game(){
+    fun getTileColor(value: Int): Color {
+        return when (value) {
+            0 -> Color(0xFFEDE0C8)  // Color base
+            2 -> Color(0xFFEEE4DA)
+            4 -> Color(0xFFEDE0C8)
+            8 -> Color(0xFFF2B179)  // Naranja
+            16 -> Color(0xFFF59563)
+            32 -> Color(0xFFF67C5F)  // Más rojo
+            64 -> Color(0xFFF65E3B)
+            128 -> Color(0xFFEDCF72)
+            256 -> Color(0xFFEDCC61)
+            512 -> Color(0xFFEDC850)
+            1024 -> Color(0xFFEDC53F)
+            2048 -> Color(0xFFEDC22E)
+            else -> Color(0xFF3C3A32)  // Para valores mayores
+        }
+    }
+
+    var Score by remember { mutableStateOf(value = 0) }
+    var NewBest by remember { mutableStateOf(value = 0) }
+    var RealBest by remember { mutableStateOf(value = 0) }
+    var R1B1 by remember { mutableStateOf(value = 0) }
+    var R1B2 by remember { mutableStateOf(value = 0) }
+    var R1B3 by remember { mutableStateOf(value = 0) }
+    var R1B4 by remember { mutableStateOf(value = 0) }
     Column(modifier = Modifier.background(Color(color = 0xFFF8F6EE)).height(500.dp)) {
 
         Row(
@@ -99,7 +131,7 @@ fun Game(){
                     )
                     Spacer(modifier = Modifier.width(50.dp))
                     Text(
-                        text = "1692",
+                        text = Score.toString(),
                         color = Color.Black
                     )
                 }
@@ -131,7 +163,7 @@ fun Game(){
                     )
                     Spacer(modifier = Modifier.width(50.dp))
                     Text(
-                        text = "7000",
+                        text = RealBest.toString(),
                         color = Color.Black
                     )
                 }
@@ -160,15 +192,23 @@ fun Game(){
                         ) {
 
                             Box(
-                                modifier = Modifier
+                                modifier = Modifier.
+                                clickable {
+                                    Score = if (R1B1 == 0) Score+2  else Score+(R1B1 * 2)-R1B1
+                                    R1B1 = if (R1B1 == 0) 2  else R1B1 * 2
+                                    NewBest = R1B1
+                                    RealBest = if (NewBest > RealBest) NewBest else RealBest
+
+
+                                }
                                     .weight(1f)
                                     .aspectRatio(1f)
-                                    .background(Color(0xFFEDE0C8), RoundedCornerShape(5.dp)),
+                                    .background(getTileColor(R1B1), RoundedCornerShape(5.dp)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "4",
-                                    color = Color(0xFF776E65),
+                                    text = R1B1.toString(),
+                                    color = Color.Black,
                                     fontSize = 32.sp,
 
                                 )
@@ -176,15 +216,22 @@ fun Game(){
 
 
                             Box(
-                                modifier = Modifier
+                                modifier = Modifier.clickable {
+                                    Score = if (R1B2 == 0) Score+2  else Score+(R1B2 * 2)-R1B2
+                                    R1B2 = if (R1B2 == 0) 2  else R1B2 * 2
+                                    NewBest = R1B2
+                                    RealBest = if (NewBest > RealBest) NewBest else RealBest
+
+
+                                }
                                     .weight(1f)
                                     .aspectRatio(1f)
-                                    .background(Color(0xFFF67C5F), RoundedCornerShape(5.dp)),
+                                    .background(getTileColor(R1B2), RoundedCornerShape(5.dp)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "32",
-                                    color = Color.White,
+                                    text = R1B2.toString(),
+                                    color = Color.Black,
                                     fontSize = 32.sp,
 
                                 )
